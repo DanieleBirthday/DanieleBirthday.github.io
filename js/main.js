@@ -2,8 +2,14 @@
 	var header = document.getElementById("mainHeader");
 
 	function changeHeader() {
-		var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-		header.classList.toggle("header-background", scrollTop >= 50 || document.body.classList.contains("nav-open"));
+                if (typeof display_bar !== 'undefined' && display_bar) {
+                  var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                  header.classList.toggle("header-background", scrollTop >= 0 || document.body.classList.contains("nav-open"));
+                }
+                else {
+                  var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                  header.classList.toggle("header-background", scrollTop >= 200 || document.body.classList.contains("nav-open"));
+                }
 	}
 
 	var didScroll = false;
