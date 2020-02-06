@@ -25,38 +25,40 @@
 					</a>
 				</div>
 				{% include navigation.html %}
-				<p class="editor-link"><a style="display:inline;" href="cloudcannon:collections/_data/navigation.yml" class="btn"><strong>&#9998;</strong> Edit navigation</a></p>
+                                <p class="editor-link"><a style="display:inline;" href="cloudcannon:collections/_data/navigation.yml" class="btn"><strong>&#9998;</strong> Edit navigation</a></p>
+
 			</div>
 		</header>
 
 		{{ content }}
 
-		<footer style="display: none">
+		<footer class="footer_custom">
 			<div class="container">
-				<p class="editor-link"><a href="cloudcannon:collections/_data/footer.yml" class="btn"><strong>&#9998;</strong> Edit footer</a></p>
+				<div class="company-name">
+					<a href="{{ site.baseurl }}/">
+						<span class="dark-logo"><img width="30" height="38" src="{{ site.baseurl }}/images/logo/dark.svg" alt=""></span>
+						<span class="light-logo"><img width="30" height="38" src="{{ site.baseurl }}/images/logo/light.svg" alt=""></span>
+					</a>
+                                        {% for link in site.data.navigation %}
+                                                {% assign class = "" %}
+                                                {% if link.highlight %}
+                                                   {% assign class = class | append: " highlight" %}
+                                                {% endif %}
+
+                                                {% if link.link == page.url %}
+                                                   {% assign class = class | append: " active" %}
+                                                {% endif %}
+                                                <a href="{% include relative-src.html src=link.link %}"
+                                                   class="{{ class }}" {% if link.new_window %}target="_blank"{% endif %} 
+                                                   style="text-transform: uppercase; font-size: 1.2em;">
+                                                    {{ link.name }}
+                                                </a>
+                                        {% endfor %}
+				</div>
+				<p class="editor-link"><a href="cloudcannon:collections/_data/navigation.yml" class="btn"><strong>&#9998;</strong> Edit footer</a></p>
 				<ul class="footer-left-links">
-                                        <!--
-					{% for link in site.data.footer.left_links %}
-						<li>
-							<a {% if link.new_window %}target="_blank"{% endif %} href="{% include relative-src.html src=link.link %}" {% if link.social_icon %}class="{{ link.social_icon | slugify }}-icon"{% endif %}>
-								{% if link.social_icon %}{% include social-icon.html icon=link.social_icon %}{% endif %}
-								{{ link.name }}
-							</a>
-						</li>
-					{% endfor %}
-                                        -->
 				</ul>
 				<ul class="footer-right-links">
-                                        <!--
-					{% for link in site.data.footer.right_links %}
-						<li>
-							<a {% if link.new_window %}target="_blank"{% endif %} href="{% include relative-src.html src=link.link %}" {% if link.social_icon %}class="{{ link.social_icon | slugify }}-icon"{% endif %}>
-								{% if link.social_icon %}{% include social-icon.html icon=link.social_icon %}{% endif %}
-								{{ link.name }}
-							</a>
-						</li>
-					{% endfor %}
-                                        -->
 				</ul>
 				<p class="copyright">
                                         <!--
@@ -68,6 +70,19 @@
 			</div>
 		</footer>
 
+		<style>
+                @media (min-width: 620px) {
+                     .footer_custom {
+                         display: none;
+                     }
+                }
+                </style>
+                <script>
+                if (typeof hide_footer !== 'undefined' && hide_footer) 
+                {
+                  document.getElementsByClassName('footer_custom')[0].style.display = "none";
+                }
+                </script>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 		<script src="{{ site.baseurl }}/js/main.js"></script>
 	</body>
