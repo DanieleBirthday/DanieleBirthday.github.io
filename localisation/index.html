@@ -39,26 +39,52 @@ Fêtons ensemble pour son plus grand bonheur ses 50 ans entourés des gens qu’
 
 Je vous attends le 12 Avril 2020 à partir de 12 h 00 au 61-69 rue des morillons 75015 Paris. 
 </p>
-<div id="map"></div>
-<script>
-// Initialize and add the map
-function initMap() {
-  // The location of Uluru
-  var uluru = {lat: -25.344, lng: 131.036};
-  // The map, centered at Uluru
-  var map = new google.maps.Map(
-  document.getElementById('map'), {zoom: 4, center: uluru});
-  // The marker, positioned at Uluru
-  var marker = new google.maps.Marker({position: uluru, map: map});
-}
-</script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCP3bLUpGW2OwEZNYjqX3xKa0Rw9l_EbZc&callback=initMap"></script>
 
 <p>
   <img src="/images/street-view.png" />
 
 </p>
 
-    </div>
+<script src='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css' rel='stylesheet' />
+
+<div id='map' style='width: 100%; height: 300px;'></div>
+<script>
+  var geojson = {
+    type: 'FeatureCollection',
+    features: [{
+      type: 'Feature',
+      geometry: {
+	type: 'Point',
+	coordinates: [2.3022135416149467, 48.832459538032]
+      },
+      properties: {
+	'marker-color': '#3bb2d0',
+	'marker-size': 'large',
+	'marker-symbol': 'rocket'
+      }
+    }]
+  };
+  mapboxgl.accessToken = 'pk.eyJ1IjoiamVhbjEyMzMyMSIsImEiOiJjazY5bnJtNHUwOTM4M21tZ3pxNHQ2ZGVnIn0.VS2Usrk5n6LV6amsCfyMcQ';
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [2.3022135416149467, 48.832459538032], // starting position
+    zoom: 15 // starting zoom
+  });
+
+  geojson.features.forEach(function(marker) {
+    // create a HTML element for each feature
+    var el = document.createElement('div');
+    el.className = 'marker';
+    el.innerHTML = '📌';
+    // make a marker for each feature and add to the map
+    new mapboxgl.Marker(el, {offset: [5, -5] }).setLngLat(marker.geometry.coordinates).addTo(map);
+  });
+  // remove footer banner on map
+  document.getElementsByClassName('mapboxgl-ctrl mapboxgl-ctrl-attrib')[0].style.display = "none";
+</script>
+</div>
+
   </div>
 </section>
